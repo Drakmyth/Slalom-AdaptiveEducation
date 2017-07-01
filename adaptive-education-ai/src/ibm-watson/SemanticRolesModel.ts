@@ -1,4 +1,4 @@
-class SemanticRolesModel {
+export class SemanticRolesModel {
     sentence: string;
     subject: string;
     action: string;
@@ -16,3 +16,5 @@ class SemanticRolesModel {
         return "Hello, " + this.sentence;
     }
 }
+
+export default SemanticRolesModel;

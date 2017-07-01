@@ -1,4 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
+import SemanticRolesModel from '../ibm-watson/SemanticRolesModel';
 
 export class IbmWatsonRouter {
   router: Router
@@ -48,9 +49,13 @@ export class IbmWatsonRouter {
         }
         else {
             result = JSON.stringify(response, null);
-            console.log(result);
         }
     });    
+
+    let semanticRolesModel: SemanticRolesModel;
+    semanticRolesModel = new SemanticRolesModel('my sentence', 'subject', 'action', 'object');
+    console.log(semanticRolesModel.printOut());
+
     res.send('Call getQuestions Routes');    
   }
 
