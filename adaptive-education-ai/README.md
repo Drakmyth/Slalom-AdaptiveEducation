@@ -16,3 +16,6 @@ Check out the [blog post](http://mherman.org/blog/2016/11/05/developing-a-restfu
 ## Sample Projects
 
 - [Simple whois REST API](https://github.com/wingsuitist/whoissv)
+
+## Install Watson
+npm install watson-developer-cloud --save

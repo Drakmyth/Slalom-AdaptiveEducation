@@ -21,7 +21,36 @@ export class IbmWatsonRouter {
   /**
    * GET.
    */
-  public getQuestions(req: Request, res: Response, next: NextFunction) {
+  public analyzeText(req: Request, res: Response, next: NextFunction) {
+    console.log('analyzeText api');
+
+    var fs = require('fs');
+    var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+    var nlu = new NaturalLanguageUnderstandingV1({
+      username: 'af6311ab-9757-48bc-8e4f-7598198ce369',
+      password: '2fcJVuiSI45V',
+      version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
+    });
+
+    var text = 'This is a software called Adaptive Education. This is for AI Hackathon. This is just a test string';
+    var result = '';
+    // var text = request.body.name;
+    nlu.analyze({
+        'html': text, // Buffer or String 
+        'features': {
+            'concepts': {},
+            'keywords': {},
+            'entities': {}
+        }
+    }, function(err, response) {
+        if (err) {
+            console.log('error:', err);
+        }
+        else {
+            result = JSON.stringify(response, null);
+            console.log(result);
+        }
+    });    
     res.send('Call getQuestions Routes');    
   }
 
@@ -31,7 +60,7 @@ export class IbmWatsonRouter {
    */
   init() {
     this.router.get('/', this.getAll);
-    this.router.get('/getQuestions', this.getQuestions);
+    this.router.get('/analyze-text', this.analyzeText);
   }
 
 }
