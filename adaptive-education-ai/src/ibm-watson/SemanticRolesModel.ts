@@ -1,20 +1,23 @@
+'use strict';
+
 export class SemanticRolesModel {
     sentence: string;
-    subject: string;
-    action: string;
-    object: string;
-    
+    subject: subjectModel;
+    action: actionModel;
+    object: objectModel;
+}
 
-    constructor (sentence: string, subject: string, action: string, object: string) {
-        this.sentence = sentence;
-        this.subject = subject;
-        this.action = action;
-        this.object = object;        
-    }
+export class subjectModel {
+    text: string;
+}
 
-    printOut() {
-        return "Hello, " + this.sentence;
-    }
+export class actionModel {
+    text: string;
+    normalized: string;
+}
+
+export class objectModel {
+    text: string;
 }
 
 export default SemanticRolesModel;

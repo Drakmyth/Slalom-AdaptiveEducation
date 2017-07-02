@@ -1,21 +1,21 @@
-# Developing a RESTful API With Node and TypeScript
-
-## Want to learn how to build this project?
-
-Check out the [blog post](http://mherman.org/blog/2016/11/05/developing-a-restful-api-with-node-and-typescript/#.WB3zyeErJE4).
-
-## Want to use this project?
-
-1. Fork/Clone
+# How to use this adaptive-education-ai
 1. Install dependencies - `npm install`
-1. Compile - `gulp scripts`
-1. Compile assets - `gulp assets`
-1. Run the development server - `npm start`
-1. Test - `npm test`
+2. Compile - `gulp scripts`
+3. Compile assets - `gulp assets`
+4. Run the development server - `npm start`
 
-## Sample Projects
+# postman collection
+https://www.getpostman.com/collections/da6bc882172cce02f8df
 
-- [Simple whois REST API](https://github.com/wingsuitist/whoissv)
+# Calling api
+1. Open Postman
 
-## Install Watson
-npm install watson-developer-cloud --save
+# analyze text (Has to be run first)
+POST http://localhost:3000/api/watson/analyze-text
+With x-www-form-urlencoded
+Key = text
+Value = <paragraph>
+
+# get Subject Action Object Type Questions
+GET http://localhost:3000/api/watson/get-sao-questions
+

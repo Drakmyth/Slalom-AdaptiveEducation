@@ -1,62 +1,73 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import SemanticRolesModel from '../ibm-watson/SemanticRolesModel';
+import IbmWatsonNluService from '../ibm-watson/IbmWatsonNluService';
+const fs = require('fs');
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+const ibmWatsonNluService = new IbmWatsonNluService();
 
 export class IbmWatsonRouter {
-  router: Router
+  router: Router;
 
   /**
-   * Initialize the HeroRouter
+   * Initialize the Router
    */
   constructor() {
     this.router = Router();
-    this.init();
+    this.init();       
   }
 
   /**
-   * GET.
+   * Get
    */
-  public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send('Call getAll Routes');    
+  public getWatsonResults(req: Request, res: Response, next: NextFunction) {
+    res.send(ibmWatsonNluService.getWatsonResult());    
   }
 
   /**
-   * GET.
+   * Get
+   */
+  public getSemanticRolesResult(req: Request, res: Response, next: NextFunction) {
+    res.send(ibmWatsonNluService.getSemanticRolesResult());    
+  }  
+
+  /**
+   * Get
+   */
+  public getSaoQuestions(req: Request, res: Response, next: NextFunction) {
+    res.send(ibmWatsonNluService.generateSaoQuestions());    
+  }
+
+  /**
+   * POST Analyze-Text.
    */
   public analyzeText(req: Request, res: Response, next: NextFunction) {
-    console.log('analyzeText api');
+    let text = req.body.text;
+    let watsonResult = '';
 
-    var fs = require('fs');
-    var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-    var nlu = new NaturalLanguageUnderstandingV1({
-      username: 'af6311ab-9757-48bc-8e4f-7598198ce369',
-      password: '2fcJVuiSI45V',
-      version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
-    });
+    // setting up natural language understanding
+    let nlu = new NaturalLanguageUnderstandingV1({
+        username: 'af6311ab-9757-48bc-8e4f-7598198ce369',
+        password: '2fcJVuiSI45V',
+        version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
+      });     
 
-    var text = 'This is a software called Adaptive Education. This is for AI Hackathon. This is just a test string';
-    var result = '';
-    // var text = request.body.name;
+    // analyze Text
     nlu.analyze({
         'html': text, // Buffer or String 
         'features': {
-            'concepts': {},
-            'keywords': {},
-            'entities': {}
+            'semantic_roles': {}
         }
     }, function(err, response) {
         if (err) {
             console.log('error:', err);
         }
         else {
-            result = JSON.stringify(response, null);
+            watsonResult = JSON.stringify(response, null);   
+            ibmWatsonNluService.setWatsonResult(JSON.parse(watsonResult)); 
         }
     });    
-
-    let semanticRolesModel: SemanticRolesModel;
-    semanticRolesModel = new SemanticRolesModel('my sentence', 'subject', 'action', 'object');
-    console.log(semanticRolesModel.printOut());
-
-    res.send('Call getQuestions Routes');    
+        
+    res.send('successfully analyze text');    
   }
 
   /**
@@ -64,8 +75,10 @@ export class IbmWatsonRouter {
    * endpoints.
    */
   init() {
-    this.router.get('/', this.getAll);
-    this.router.get('/analyze-text', this.analyzeText);
+    this.router.get('/get-watson-results', this.getWatsonResults);
+    this.router.get('/get-semantic-roles-results', this.getSemanticRolesResult);
+    this.router.get('/get-sao-questions', this.getSaoQuestions);
+    this.router.post('/analyze-text', this.analyzeText);
   }
 
 }
