@@ -1,0 +1,15 @@
+language: node_js
+node_js: node
+before_install:
+  - npm install -g webpack gulp eslint
+install: true
+script:
+  - cd adaptive-education-ai
+  - npm install
+  - eslint src
+  - gulp scripts
+  - gulp assets
+  - cd ../frontend
+  - npm install
+  - eslint src
+  - webpack

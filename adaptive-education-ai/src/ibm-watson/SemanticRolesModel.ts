@@ -1,23 +1,21 @@
 'use strict';
 
-export class SemanticRolesModel {
+export default class SemanticRolesModel {
     sentence: string;
-    subject: subjectModel;
-    action: actionModel;
-    object: objectModel;
+    subject: SubjectModel;
+    action: ActionModel;
+    object: ObjectModel;
 }
 
-export class subjectModel {
+export class SubjectModel {
     text: string;
 }
 
-export class actionModel {
+export class ActionModel {
     text: string;
     normalized: string;
 }
 
-export class objectModel {
+export class ObjectModel {
     text: string;
 }
-
-export default SemanticRolesModel;
