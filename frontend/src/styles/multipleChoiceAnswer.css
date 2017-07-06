@@ -14,13 +14,23 @@
 */
 
 .multiple-choice-answer {
-
+    position: relative;
 }
 
 .answer-label-radio {
-
+    padding: 0 32px;
 }
 
 .answer-input-radio {
 
+}
+
+.answer-feedback.correct {
+    color: rgb(28, 156, 30);
+    position: absolute;
+}
+
+.answer-feedback.incorrect {
+    color: rgb(156, 30, 28);
+    position: absolute;
 }

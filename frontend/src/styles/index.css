@@ -21,6 +21,9 @@ ul {
 
 .yes-button {
     background-color: rgb(28, 156, 30);
+    border: 2px solid rgb(227, 227, 227);
+    border-radius: 8px;
+    color: rgb(227, 227, 227);
     padding: 8px;
 }
 

@@ -16,3 +16,14 @@
 .multiple-choice-question {
 
 }
+
+.question-text {
+    margin: 0 8px;
+    padding: 0 4px;
+    border-left: 2px solid rgb(128, 128, 128);
+    font-style: italic;
+}
+
+.multiple-choice-answer-list {
+    padding: 0;
+}
