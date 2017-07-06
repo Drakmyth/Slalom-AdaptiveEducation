@@ -1,0 +1,29 @@
+/*
+**  blue bar
+**      rgb(0, 133, 181)
+**  background accent
+**      rgb(227, 227, 227);
+**  text
+**      rgb(158, 161, 163);
+**  (darker)text
+**      rgb(128, 128, 128);
+**  right
+**      rgb(28, 156, 30)
+**  wrong
+**      rgb(156, 30, 28)
+*/
+
+.multiple-choice-question {
+
+}
+
+.question-text {
+    margin: 0 8px;
+    padding: 0 4px;
+    border-left: 2px solid rgb(128, 128, 128);
+    font-style: italic;
+}
+
+.multiple-choice-answer-list {
+    padding: 0;
+}
