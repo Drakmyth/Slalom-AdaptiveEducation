@@ -62,7 +62,7 @@ export class IbmWatsonRouter {
             console.log('error:', err);
         }
         else {
-            watsonResult = JSON.stringify(response, null);   
+            watsonResult = JSON.stringify(response);   
             ibmWatsonNluService.setWatsonResult(JSON.parse(watsonResult)); 
         }
     });    

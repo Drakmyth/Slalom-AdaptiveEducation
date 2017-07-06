@@ -1,6 +1,12 @@
 'use strict';
 import SemanticRolesModel from '../ibm-watson/SemanticRolesModel';
 import SaoTypeQuestionModel from '../ibm-watson/SaoTypeQuestionModel';
+import MultipleChoiceModel from '../ibm-watson/MultipleChoiceModel';
+
+const questionTypeId = 1;
+const subjectQuestion = 'What is the subject of the following sentence?';
+const actionQuestion = 'What is the action of the following sentence?';
+const objectQuestion = 'What is the object of the following sentence?';
 
 export class IbmWatsonNluService {
     watsonResult: any;
@@ -20,28 +26,52 @@ export class IbmWatsonNluService {
     }    
 
     generateSaoQuestions() {
+        let questionId: number;
+        let answerId:number;
+
+        questionId = 1;
+
         let saoTypeQuestions: SaoTypeQuestionModel[];
         saoTypeQuestions = new Array();
 
         for (let semantic of this.semanticRoles) {
+            answerId = 1;
+
             // generate subject question
             if (semantic.subject) {
                 let choiceOptions = new Array();
-                choiceOptions.push(semantic.subject.text);
+
+                choiceOptions.push(
+                    new MultipleChoiceModel(
+                    answerId++,
+                    semantic.subject.text,
+                    true)
+                );
 
                 if (semantic.action) {
-                    choiceOptions.push(semantic.action.text);
+                    choiceOptions.push(
+                        new MultipleChoiceModel(
+                        answerId++,
+                        semantic.action.text,
+                        false)
+                    );
                 }
 
                 if (semantic.object) {
-                    choiceOptions.push(semantic.object.text);
+                    choiceOptions.push(
+                        new MultipleChoiceModel(
+                        answerId,
+                        semantic.object.text,
+                        false)
+                    );
                 }                
 
                 saoTypeQuestions.push(
                     new SaoTypeQuestionModel(
+                        questionId++,
+                        questionTypeId,
+                        subjectQuestion,
                         semantic.sentence,
-                        'What is the subject of this sentence: ' + semantic.sentence,
-                        semantic.subject.text,
                         this.shuffleMultipleChoice(choiceOptions)
                     )
                 );
@@ -50,21 +80,38 @@ export class IbmWatsonNluService {
             // generate action question
             if (semantic.action) {
                 let choiceOptions = new Array();
-                choiceOptions.push(semantic.action.text);
+
+                choiceOptions.push(
+                    new MultipleChoiceModel(
+                    answerId++,
+                    semantic.action.text,
+                    true)
+                );
 
                 if (semantic.subject) {
-                    choiceOptions.push(semantic.subject.text);
+                    choiceOptions.push(
+                        new MultipleChoiceModel(
+                        answerId++,
+                        semantic.subject.text,
+                        false)
+                    );
                 }
 
                 if (semantic.object) {
-                    choiceOptions.push(semantic.object.text);
+                    choiceOptions.push(
+                        new MultipleChoiceModel(
+                        answerId,
+                        semantic.object.text,
+                        false)
+                    );
                 }                
 
                 saoTypeQuestions.push(
                     new SaoTypeQuestionModel(
+                        questionId++,
+                        questionTypeId,
+                        actionQuestion,
                         semantic.sentence,
-                        'What is the action of this sentence: ' + semantic.sentence,
-                        semantic.action.text,
                         this.shuffleMultipleChoice(choiceOptions)
                     )
                 );
@@ -73,21 +120,38 @@ export class IbmWatsonNluService {
             // generate object question
             if (semantic.object) {
                 let choiceOptions = new Array();
-                choiceOptions.push(semantic.object.text);
+
+                choiceOptions.push(
+                    new MultipleChoiceModel(
+                    answerId++,
+                    semantic.object.text,
+                    true)
+                );
 
                 if (semantic.subject) {
-                    choiceOptions.push(semantic.subject.text);
-                }     
+                    choiceOptions.push(
+                        new MultipleChoiceModel(
+                        answerId++,
+                        semantic.subject.text,
+                        false)
+                    );
+                }
 
                 if (semantic.action) {
-                    choiceOptions.push(semantic.action.text);
-                }           
+                    choiceOptions.push(
+                        new MultipleChoiceModel(
+                        answerId,
+                        semantic.action.text,
+                        false)
+                    );
+                }                
 
                 saoTypeQuestions.push(
                     new SaoTypeQuestionModel(
+                        questionId++,
+                        questionTypeId,
+                        objectQuestion,
                         semantic.sentence,
-                        'What is the object of this sentence: ' + semantic.sentence,
-                        semantic.object.text,
                         this.shuffleMultipleChoice(choiceOptions)
                     )
                 );
