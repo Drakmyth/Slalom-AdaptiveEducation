@@ -60,42 +60,8 @@ ul {
 
 }
 
-.tab {
-    position: relative;
-}
-
-.tab-header {
-    text-align: center;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border: 1px solid rgb(158, 161, 163);
-    border-bottom-color: white;
-    width: 80px;
-    height: 32px;
-    top: -31px;
-    position: absolute;
-    background-color: white;
-    padding: 8px;
-    z-index: 1;
-}
-
 .question-list {
     padding: 16px 8px;
-}
-
-
-#uploadTabHeader {
-    left: 80px;
-    z-index: -1;
-    background-color: rgb(227, 227, 227);
-}
-
-.tab-body {
-    border: 1px solid rgb(158, 161, 163);
-    position: absolute;
-    background-color: white;
-    padding: 16px;
-    width: 100%;
 }
 
 .upload-area {

@@ -2,6 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {MultipleChoiceQuestion} from "./components/multipleChoiceQuestion";
 import {MockMultipleChoiceQuestionModels} from "./models/questionModel";
+import {Tab} from "./components/tab";
+import {ReactNode} from "react";
 
 
 interface AppProps {
@@ -13,7 +15,8 @@ class App extends React.Component<AppProps, any> {
         super(props);
 
         this.state = {
-            showFeedback: false
+            showFeedback: false,
+            activeTabIndex: 0
         };
 
     }
@@ -27,8 +30,42 @@ class App extends React.Component<AppProps, any> {
         }, this);
     };
 
+    getQuestionTab = (): ReactNode => {
+
+        return (
+            <div>
+                <div>{'<'} Back to Assignment List</div>
+                <form name="questionsForm" onSubmit={(e) => {e.preventDefault()}}>
+                    <ol className="question-list">
+                        {this.getMultipleChoiceQuestions()}
+                    </ol>
+                    <button type="submit" className="yes-button" onClick={this.submitQuestions}>Submit</button>
+                </form>
+            </div>
+        );
+    };
+
+    getUploadTab = (): ReactNode => {
+        return (
+            <div>
+                <form>
+                    <label htmlFor="uploadName"><input id="uploadName" type="text" name="uploadName" /></label>
+                    <label className="upload-label" htmlFor="upload-area"></label>
+                    <textarea id="uploadArea" name="upload" className="upload-area" defaultValue="Paste text here."></textarea>
+                    <button className="upload-button yes-button">Upload</button>
+                </form>
+            </div>
+        );
+    };
+
     submitQuestions = () => {
         this.setState({showFeedback: true});
+    };
+
+    selectTab = (selectedTabIndex: number) => {
+        this.setState({
+            activeTabIndex: selectedTabIndex
+        });
     };
 
     render () {
@@ -36,30 +73,8 @@ class App extends React.Component<AppProps, any> {
             <div className="app">
                 <header className="header-bar"></header>
                 <section className="tab-view">
-                    <div className="tab">
-                        <div className="tab-header">Questions</div>
-                        <div className="tab-body">
-                            <div>{'<'} Back to Assignment List</div>
-                            <form name="questionsForm" onSubmit={(e) => {e.preventDefault()}}>
-                                <ol className="question-list">
-                                    {this.getMultipleChoiceQuestions()}
-                                </ol>
-                                <button type="submit" className="yes-button" onClick={this.submitQuestions}>Submit</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div className="tab">
-                        <div id="uploadTabHeader" className="tab-header">Upload</div>
-                        <div className="tab-body hide">
-                            <form>
-                                <label className="upload-label" htmlFor="upload-area"></label>
-                                <textarea id="uploadArea" name="upload" className="upload-area" defaultValue="Paste text here."></textarea>
-                                <button className="upload-button yes-button">Upload</button>
-                            </form>
-                        </div>
-                    </div>
-
+                    <Tab children={this.getUploadTab()} tabHeader="Upload" tabIndex={0} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>
+                    <Tab children={this.getQuestionTab()} tabHeader="Questions" tabIndex={1} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>
                 </section>
             </div>
         );
