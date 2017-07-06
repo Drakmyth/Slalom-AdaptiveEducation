@@ -9,7 +9,6 @@ script:
   - eslint src
   - gulp scripts
   - gulp assets
-  - npm test
   - cd ../frontend
   - npm install
   - eslint src
