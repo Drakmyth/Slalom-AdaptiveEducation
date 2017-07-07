@@ -41,7 +41,7 @@ export class IbmWatsonRouter {
    * POST Analyze-Text.
    */
   public analyzeText(req: Request, res: Response, next: NextFunction) {
-    let text = req.body.text;
+    let text = req.param('text');
     let watsonResult = '';
     let textId = 1;
 
