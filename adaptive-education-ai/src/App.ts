@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 
 import IbmWatsonRouter from './routes/IbmWatsonRouter';
 
@@ -22,7 +23,8 @@ class App {
   private middleware(): void {
     this.express.use(logger('dev'));
     this.express.use(bodyParser.json());
-    this.express.use(bodyParser.urlencoded({ extended: false }));
+    this.express.use(cors());
+
   }
 
   // Configure API endpoints.
