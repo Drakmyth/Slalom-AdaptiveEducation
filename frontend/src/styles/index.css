@@ -1,3 +1,18 @@
+/*
+**  blue bar
+**      rgb(0, 133, 181)
+**  background accent
+**      rgb(227, 227, 227);
+**  text
+**      rgb(158, 161, 163);
+**  (darker)text
+**      rgb(128, 128, 128);
+**  right
+**      rgb(28, 156, 30)
+**  wrong
+**      rgb(156, 30, 28)
+*/
+
 * {
     box-sizing: border-box;
     color: rgb(128, 128, 128);
@@ -32,21 +47,6 @@ ul {
     padding: 8px;
 }
 
-/*
-**  blue bar
-**      rgb(0, 133, 181)
-**  background accent
-**      rgb(227, 227, 227);
-**  text
-**      rgb(158, 161, 163);
-**  (darker)text
-**      rgb(128, 128, 128);
-**  right
-**      rgb(28, 156, 30)
-**  wrong
-**      rgb(156, 30, 28)
-*/
-
 .header-bar {
     background-color: rgb(0, 133, 181);
     width: 100%;
@@ -62,8 +62,4 @@ ul {
 
 .question-list {
     padding: 16px 8px;
-}
-
-.upload-area {
-    min-height: 256px;
 }

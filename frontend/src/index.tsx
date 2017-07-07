@@ -1,9 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {MultipleChoiceQuestion} from "./components/multipleChoiceQuestion";
-import {MockMultipleChoiceQuestionModels} from "./models/questionModel";
+import {MockMultipleChoiceQuestionModels, MultipleChoiceQuestionModel} from "./models/questionModel";
 import {Tab} from "./components/tab";
 import {ReactNode} from "react";
+import {Upload} from "./components/upload";
 
 
 interface AppProps {
@@ -16,13 +17,18 @@ class App extends React.Component<AppProps, any> {
 
         this.state = {
             showFeedback: false,
-            activeTabIndex: 0
+            activeTabIndex: 0,
+            multipleChoiceQuestions: []
         };
 
     }
 
-    getMultipleChoiceQuestions = (): any[] => {
-        return MockMultipleChoiceQuestionModels.map((question, index) => {
+    getMultipleChoiceQuestions = (multipleChoiceQuestionModels: MultipleChoiceQuestionModel[]): any[] => {
+        if(!multipleChoiceQuestionModels) {
+            multipleChoiceQuestionModels = [];
+        }
+
+        return multipleChoiceQuestionModels.map((question, index) => {
             if(!this.state){
                 return;
             }
@@ -30,14 +36,14 @@ class App extends React.Component<AppProps, any> {
         }, this);
     };
 
-    getQuestionTab = (): ReactNode => {
+    getQuestionTab = (multipleChoiceQuestionModels: MultipleChoiceQuestionModel[]): ReactNode => {
 
         return (
             <div>
                 <div>{'<'} Back to Assignment List</div>
                 <form name="questionsForm" onSubmit={(e) => {e.preventDefault()}}>
                     <ol className="question-list">
-                        {this.getMultipleChoiceQuestions()}
+                        {this.getMultipleChoiceQuestions(multipleChoiceQuestionModels)}
                     </ol>
                     <button type="submit" className="yes-button" onClick={this.submitQuestions}>Submit</button>
                 </form>
@@ -48,15 +54,38 @@ class App extends React.Component<AppProps, any> {
     getUploadTab = (): ReactNode => {
         return (
             <div>
-                <form>
-                    <label htmlFor="uploadName"><input id="uploadName" type="text" name="uploadName" /></label>
-                    <label className="upload-label" htmlFor="upload-area"></label>
-                    <textarea id="uploadArea" name="upload" className="upload-area" defaultValue="Paste text here."></textarea>
-                    <button className="upload-button yes-button">Upload</button>
-                </form>
+                <Upload pollQuestionsCallback={this.pollQuestionsCallback}></Upload>
             </div>
         );
     };
+
+    pollQuestionsCallback = (textAnalysisId: number) => {
+        let saoQuestionsAddress: string = 'http://localhost:3000/api/watson/get-sao-questions';
+        fetch(saoQuestionsAddress,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((response) => {
+
+            let responseJson = response.json();
+
+            responseJson.then((questionResponse) => {
+                console.log(questionResponse);
+                this.setState({
+                    activeTabIndex: 1,
+                    multipleChoiceQuestions: questionResponse
+                })
+            });
+        }).catch((errResponse) => {
+            console.log(errResponse);
+            setTimeout(() => {
+                this.pollQuestionsCallback(textAnalysisId);
+            }, 5000);
+        });
+    };
+
 
     submitQuestions = () => {
         this.setState({showFeedback: true});
@@ -74,7 +103,7 @@ class App extends React.Component<AppProps, any> {
                 <header className="header-bar"></header>
                 <section className="tab-view">
                     <Tab children={this.getUploadTab()} tabHeader="Upload" tabIndex={0} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>
-                    <Tab children={this.getQuestionTab()} tabHeader="Questions" tabIndex={1} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>
+                    <Tab children={this.getQuestionTab(this.state.multipleChoiceQuestions)} tabHeader="Questions" tabIndex={1} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>
                 </section>
             </div>
         );
