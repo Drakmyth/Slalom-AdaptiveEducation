@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
 import IbmWatsonRouter from './routes/IbmWatsonRouter';
+import CommonAIRouter from "./routes/commonAIRouter";
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -42,6 +43,7 @@ class App {
     
     this.express.use('/', router);
     this.express.use('/api/watson', IbmWatsonRouter);
+    this.express.use('/api/', CommonAIRouter);
   }
 
 }

@@ -60,7 +60,7 @@ class App extends React.Component<AppProps, any> {
     };
 
     pollQuestionsCallback = (textAnalysisId: number) => {
-        let saoQuestionsAddress: string = 'http://localhost:3000/api/watson/get-sao-questions/' + textAnalysisId;
+        let saoQuestionsAddress: string = 'http://localhost:3000/api/get-questions/' + textAnalysisId;
         fetch(saoQuestionsAddress,
             {
                 method: 'GET',
@@ -73,11 +73,11 @@ class App extends React.Component<AppProps, any> {
 
             let retryCount: number = 0;
 
-            responseJson.then((questionResponse: IApiStatusResponseWrapper<MultipleChoiceQuestionModel[]>) => {
-                if (questionResponse.isFinished && questionResponse.content) {
+            responseJson.then((questionResponse: MultipleChoiceQuestionModel[]) => {
+                if (questionResponse && questionResponse.length > 0) {
                     this.setState({
                         activeTabIndex: 1,
-                        multipleChoiceQuestions: questionResponse.content,
+                        multipleChoiceQuestions: questionResponse,
                         showFeedback: false
                     });
                 } else if (retryCount < 5){
