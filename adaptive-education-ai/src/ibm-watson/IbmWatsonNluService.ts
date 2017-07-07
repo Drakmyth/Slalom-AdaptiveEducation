@@ -1,4 +1,5 @@
 'use strict';
+import WatsonResultModel from '../ibm-watson/WatsonResultModel';
 import SemanticRolesModel from '../ibm-watson/SemanticRolesModel';
 import SaoTypeQuestionModel from '../ibm-watson/SaoTypeQuestionModel';
 import MultipleChoiceModel from '../ibm-watson/MultipleChoiceModel';
@@ -9,32 +10,48 @@ const actionQuestion = 'What is the action of the following sentence?';
 const objectQuestion = 'What is the object of the following sentence?';
 
 export class IbmWatsonNluService {
-    watsonResult: any;
-    semanticRoles: SemanticRolesModel[];
+    watsonResults: WatsonResultModel[];
+
+    constructor() {
+        this.watsonResults = new Array();
+    }
+
+    getNumberOfWatsonInMemory() {
+        return this.watsonResults.length;
+    }
 
     setWatsonResult(watsonResult: any) {
-        this.watsonResult = watsonResult;
-        this.semanticRoles = this.watsonResult.semantic_roles;
+        this.watsonResults.push(new WatsonResultModel(
+            watsonResult.semantic_roles,
+            watsonResult.language
+        ));
     }
 
-    getWatsonResult() {
-        return this.watsonResult;            
+    getWatsonResult(key?: number) {
+        if(!key) {
+            return this.watsonResults;        
+        }
+
+        return this.watsonResults[key - 1];
     }
 
-    getSemanticRolesResult() {
-        return this.semanticRoles;            
+    getSemanticRolesResult(key: number) {
+        return this.watsonResults[key - 1].semanticRoles;            
     }    
 
-    generateSaoQuestions() {
+    generateSaoQuestions(key: number) {
         let questionId: number;
         let answerId:number;
+        let semanticRoles: SemanticRolesModel[];
 
         questionId = 1;
 
         let saoTypeQuestions: SaoTypeQuestionModel[];
         saoTypeQuestions = new Array();
 
-        for (let semantic of this.semanticRoles) {
+        semanticRoles = this.watsonResults[key - 1].semanticRoles;
+
+        for (let semantic of semanticRoles) {
             answerId = 1;
 
             // generate subject question
