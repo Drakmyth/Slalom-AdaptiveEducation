@@ -1,0 +1,62 @@
+/*
+**  blue bar
+**      rgb(0, 133, 181)
+**  background accent
+**      rgb(227, 227, 227);
+**  text
+**      rgb(158, 161, 163);
+**  (darker)text
+**      rgb(128, 128, 128);
+**  right
+**      rgb(28, 156, 30)
+**  wrong
+**      rgb(156, 30, 28)
+*/
+
+.tab {
+    position: relative;
+}
+
+.tab.active > .tab-header {
+    background-color: white;
+    z-index: 1;
+}
+.tab.inactive > .tab-header {
+    z-index: -1;
+    background-color: rgb(227, 227, 227);
+}
+
+.tab.active > .tab-body {
+    visibility: visible;
+}
+
+.tab.inactive > .tab-body {
+    visibility: hidden;
+}
+
+
+.tab-header {
+    text-align: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border: 1px solid rgb(158, 161, 163);
+    border-bottom-color: white;
+    width: 80px;
+    height: 32px;
+    top: -31px;
+    position: absolute;
+    padding: 8px;
+}
+
+.tab-header:hover {
+    cursor: pointer;
+}
+
+
+.tab-body {
+    border: 1px solid rgb(158, 161, 163);
+    position: absolute;
+    background-color: white;
+    padding: 16px;
+    width: 100%;
+}
