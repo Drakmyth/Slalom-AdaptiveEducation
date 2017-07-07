@@ -20,21 +20,21 @@ export class IbmWatsonRouter {
    * Get
    */
   public getWatsonResults(req: Request, res: Response, next: NextFunction) {
-    res.send(ibmWatsonNluService.getWatsonResult());    
+    res.send(ibmWatsonNluService.getWatsonResult(req.params.key));    
   }
 
   /**
    * Get
    */
   public getSemanticRolesResult(req: Request, res: Response, next: NextFunction) {
-    res.send(ibmWatsonNluService.getSemanticRolesResult());    
+    res.send(ibmWatsonNluService.getSemanticRolesResult(req.params.key));    
   }  
 
   /**
    * Get
    */
   public getSaoQuestions(req: Request, res: Response, next: NextFunction) {
-    res.send(ibmWatsonNluService.generateSaoQuestions());    
+    res.send(ibmWatsonNluService.generateSaoQuestions(req.params.key));    
   }
 
   /**
@@ -43,6 +43,7 @@ export class IbmWatsonRouter {
   public analyzeText(req: Request, res: Response, next: NextFunction) {
     let text = req.body.text;
     let watsonResult = '';
+    let textId = 1;
 
     // setting up natural language understanding
     let nlu = new NaturalLanguageUnderstandingV1({
@@ -66,8 +67,16 @@ export class IbmWatsonRouter {
             ibmWatsonNluService.setWatsonResult(JSON.parse(watsonResult)); 
         }
     });    
-        
-    res.send('successfully analyze text');    
+
+    if(ibmWatsonNluService.getNumberOfWatsonInMemory()) {
+      textId = ibmWatsonNluService.getNumberOfWatsonInMemory() + 1;
+    }
+
+    var jsonData = {};
+    jsonData['id'] = textId;
+    jsonData['message'] = 'successfully analyzing text';
+
+    res.send(JSON.stringify(jsonData));    
   }
 
   /**
@@ -75,9 +84,9 @@ export class IbmWatsonRouter {
    * endpoints.
    */
   init() {
-    this.router.get('/get-watson-results', this.getWatsonResults);
-    this.router.get('/get-semantic-roles-results', this.getSemanticRolesResult);
-    this.router.get('/get-sao-questions', this.getSaoQuestions);
+    this.router.get('/get-watson-results/:key?', this.getWatsonResults);
+    this.router.get('/get-semantic-roles-results/:key', this.getSemanticRolesResult);
+    this.router.get('/get-sao-questions/:key', this.getSaoQuestions);
     this.router.post('/analyze-text', this.analyzeText);
   }
 
