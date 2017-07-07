@@ -34,14 +34,21 @@ export class IbmWatsonRouter {
    * Get
    */
   public getSaoQuestions(req: Request, res: Response, next: NextFunction) {
-    res.send(ibmWatsonNluService.generateSaoQuestions(req.params.key));    
+      let serviceResponse = ibmWatsonNluService.generateSaoQuestions(req.params.key);
+
+      let wrapperObject = { isFinished:true, content:serviceResponse };
+
+      if (!serviceResponse) {
+          wrapperObject.isFinished = false;
+      }
+      res.send(wrapperObject);
   }
 
   /**
    * POST Analyze-Text.
    */
   public analyzeText(req: Request, res: Response, next: NextFunction) {
-    let text = req.param('text');
+    let text = req.body.text;
     let watsonResult = '';
     let textId = 1;
 
