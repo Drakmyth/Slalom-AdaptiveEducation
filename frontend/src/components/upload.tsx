@@ -17,7 +17,7 @@ class Upload extends React.Component<UploadProps, any> {
 
     onSubmitHandler = () => {
         //api call
-        let analyzeTextAddress: string = 'http://localhost:3000/api/watson/analyze-text';
+        let analyzeTextAddress: string = 'http://localhost:3000/api/analyze-text';
         let requestData = { text: this.state.uploadText };
 
         fetch(analyzeTextAddress, {

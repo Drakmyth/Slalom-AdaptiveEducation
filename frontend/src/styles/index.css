@@ -18,12 +18,12 @@
     color: rgb(128, 128, 128);
 }
 
-
 html, body {
     width: 100%;
     padding: 0;
     margin: 0;
     background-color: rgb(227, 227, 227);
+    font-family: Tahoma, Geneva, sans-serif;
 }
 
 ul {
@@ -32,6 +32,14 @@ ul {
 
 .hide {
     visibility: hidden;
+}
+
+.app-title {
+    color: white;
+    position: absolute;
+    bottom: -6px;
+    left: 96px;
+    font-size: 24pt;
 }
 
 .yes-button {
@@ -48,9 +56,12 @@ ul {
 }
 
 .header-bar {
-    background-color: rgb(0, 133, 181);
     width: 100%;
     height: 80px;
+    background: rgb(0, 133, 181) url(https://raw.githubusercontent.com/Drakmyth/Slalom-AdaptiveEducation/master/designs/Logo%205.png) no-repeat;
+    background-size: contain;
+    border: 8px solid rgb(0, 133, 181);
+    position: relative;
 }
 
 .tab-view {
@@ -61,5 +72,5 @@ ul {
 }
 
 .question-list {
-    padding: 16px 8px;
+    margin: 16px 8px;
 }

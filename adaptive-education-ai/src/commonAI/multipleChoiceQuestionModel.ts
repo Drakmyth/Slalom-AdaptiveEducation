@@ -1,19 +1,18 @@
-'use strict';
-import MultipleChoiceModel from '../ibm-watson/MultipleChoiceModel';
+import MultipleChoiceAnswerModel from './MultipleChoiceAnswerModel';
 
-export default class SaoTypeQuestionModel {
+export default class MultipleChoiceQuestionModel {
     questionId: number;
     questionTypeId: number;
     questionTypeText: string;
     questionText: string;
-    answers: MultipleChoiceModel[];
+    answers: MultipleChoiceAnswerModel[];
 
     constructor(
         questionId: number, 
         questionTypeId: number, 
         questionTypeText: string, 
         questionText: string,
-        answers: MultipleChoiceModel[]) {
+        answers: MultipleChoiceAnswerModel[]) {
         this.questionId = questionId;
         this.questionTypeId = questionTypeId;
         this.questionTypeText = questionTypeText;

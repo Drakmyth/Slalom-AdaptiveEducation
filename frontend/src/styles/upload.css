@@ -61,6 +61,7 @@
 .upload-area {
     min-height: 256px;
     width: 100%;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 .upload-button  {

@@ -19,7 +19,9 @@ class App extends React.Component<AppProps, any> {
         this.state = {
             showFeedback: false,
             activeTabIndex: 0,
-            multipleChoiceQuestions: []
+            multipleChoiceQuestions: [],
+            showLoadingSpinner: false,
+            loadingSpinnerText: 'loading...'
         };
 
     }
@@ -59,8 +61,24 @@ class App extends React.Component<AppProps, any> {
         );
     };
 
+
+    displayLoadingSpinner = () => {
+        if (this.state.showLoadingSpinner) {
+            return <div className="loading-spinner-overlay"><div className="loading-spinner"></div><p>{this.state.loadingSpinnerText}</p></div>
+        } else {
+            return '';
+        }
+    };
+
+
     pollQuestionsCallback = (textAnalysisId: number) => {
-        let saoQuestionsAddress: string = 'http://localhost:3000/api/watson/get-sao-questions/' + textAnalysisId;
+        let saoQuestionsAddress: string = 'http://localhost:3000/api/get-questions/' + textAnalysisId;
+
+        this.setState({
+            showLoadingSpinner: true,
+            loadingSpinnerText: 'generating questions...'
+        });
+
         fetch(saoQuestionsAddress,
             {
                 method: 'GET',
@@ -74,11 +92,12 @@ class App extends React.Component<AppProps, any> {
             let retryCount: number = 0;
 
             responseJson.then((questionResponse: IApiStatusResponseWrapper<MultipleChoiceQuestionModel[]>) => {
-                if (questionResponse.isFinished && questionResponse.content) {
+                if (questionResponse && questionResponse.isFinished && questionResponse.content) {
                     this.setState({
                         activeTabIndex: 1,
                         multipleChoiceQuestions: questionResponse.content,
-                        showFeedback: false
+                        showFeedback: false,
+                        showLoadingSpinner: false
                     });
                 } else if (retryCount < 5){
                     setTimeout(() => {
@@ -112,7 +131,8 @@ class App extends React.Component<AppProps, any> {
     render () {
         return (
             <div className="app">
-                <header className="header-bar"></header>
+                {this.displayLoadingSpinner()}
+                <header className="header-bar"><span className="app-title">metis</span></header>
                 <section className="tab-view">
                     <Tab children={this.getUploadTab()} tabHeader="Upload" tabIndex={0} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>
                     <Tab children={this.getQuestionTab(this.state.multipleChoiceQuestions)} tabHeader="Questions" tabIndex={1} activeTabIndex={this.state.activeTabIndex} tabClickCallback={ this.selectTab }></Tab>

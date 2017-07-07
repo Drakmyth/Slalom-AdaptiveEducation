@@ -22,9 +22,11 @@ class MultipleChoiceQuestion extends React.Component<MultipleChoiceQuestionProps
     }
 
     componentWillReceiveProps(nextProps: MultipleChoiceQuestionProps) {
-        this.setState({
-            selectedAnswerId: -1
-        });
+        if (!nextProps.showFeedback) {
+            this.setState({
+                selectedAnswerId: -1
+            });
+        }
     }
 
     getMultipleChoiceAnswers = (): any[] => {
