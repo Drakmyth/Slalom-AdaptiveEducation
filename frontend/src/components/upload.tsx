@@ -27,7 +27,10 @@ class Upload extends React.Component<UploadProps, any> {
             },
             body:JSON.stringify(requestData)
         }).then((response) => {
-            this.props.pollQuestionsCallback();
+            let jsonResponse = response.json();
+            jsonResponse.then((analyzeTextResponse) => {
+                this.props.pollQuestionsCallback(analyzeTextResponse.id);
+            });
 
         }).catch((errResponse) => {
             console.log(errResponse);

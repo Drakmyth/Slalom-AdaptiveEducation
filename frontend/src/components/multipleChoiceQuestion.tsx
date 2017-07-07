@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { MultipleChoiceAnswer } from "./multipleChoiceAnswer";
 import {MultipleChoiceQuestionModel} from "../models/questionModel";
-import {MockMultipleChoiceAnswerModels, MultipleChoiceAnswerModel} from "../models/answerModel";
+import {MultipleChoiceAnswerModel} from "../models/answerModel";
 import {ChangeEvent} from "react";
 
 interface MultipleChoiceQuestionProps {
@@ -17,12 +17,23 @@ class MultipleChoiceQuestion extends React.Component<MultipleChoiceQuestionProps
 
         this.state = {
             selectedAnswerId: -1
-        }
+        };
 
     }
 
+    componentWillReceiveProps(nextProps: MultipleChoiceQuestionProps) {
+        this.setState({
+            selectedAnswerId: -1
+        });
+    }
+
     getMultipleChoiceAnswers = (): any[] => {
-        return MockMultipleChoiceAnswerModels.map((answer: MultipleChoiceAnswerModel, index: number) => {
+        let answers: MultipleChoiceAnswerModel[] = [];
+        if (this.props.question && this.props.question.answers) {
+            answers = this.props.question.answers;
+        }
+
+        return answers.map((answer: MultipleChoiceAnswerModel, index: number) => {
             return (
                 <li key={index}><MultipleChoiceAnswer questionId={this.props.question.questionId} answer={answer} showFeedback={this.props.showFeedback} selectedAnswerId={this.state.selectedAnswerId} handleOnChangeAnswer={this.handleOnChangeAnswer}></MultipleChoiceAnswer></li>
             );
