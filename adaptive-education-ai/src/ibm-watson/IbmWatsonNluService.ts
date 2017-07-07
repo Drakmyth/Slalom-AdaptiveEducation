@@ -49,6 +49,10 @@ export class IbmWatsonNluService {
         let saoTypeQuestions: SaoTypeQuestionModel[];
         saoTypeQuestions = new Array();
 
+        if (!this.watsonResults[key - 1]){
+            return;
+        }
+
         semanticRoles = this.watsonResults[key - 1].semanticRoles;
 
         for (let semantic of semanticRoles) {

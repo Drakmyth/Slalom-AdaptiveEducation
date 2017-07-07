@@ -1,10 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {MultipleChoiceQuestion} from "./components/multipleChoiceQuestion";
-import {MockMultipleChoiceQuestionModels, MultipleChoiceQuestionModel} from "./models/questionModel";
+import {MultipleChoiceQuestionModel} from "./models/questionModel";
 import {Tab} from "./components/tab";
 import {ReactNode} from "react";
 import {Upload} from "./components/upload";
+import {IApiStatusResponseWrapper} from "./models/apiStatusResponseWrapper";
 
 
 interface AppProps {
@@ -40,7 +41,6 @@ class App extends React.Component<AppProps, any> {
 
         return (
             <div>
-                <div>{'<'} Back to Assignment List</div>
                 <form name="questionsForm" onSubmit={(e) => {e.preventDefault()}}>
                     <ol className="question-list">
                         {this.getMultipleChoiceQuestions(multipleChoiceQuestionModels)}
@@ -60,7 +60,7 @@ class App extends React.Component<AppProps, any> {
     };
 
     pollQuestionsCallback = (textAnalysisId: number) => {
-        let saoQuestionsAddress: string = 'http://localhost:3000/api/watson/get-sao-questions';
+        let saoQuestionsAddress: string = 'http://localhost:3000/api/watson/get-sao-questions/' + textAnalysisId;
         fetch(saoQuestionsAddress,
             {
                 method: 'GET',
@@ -71,18 +71,27 @@ class App extends React.Component<AppProps, any> {
 
             let responseJson = response.json();
 
-            responseJson.then((questionResponse) => {
-                console.log(questionResponse);
-                this.setState({
-                    activeTabIndex: 1,
-                    multipleChoiceQuestions: questionResponse
-                })
+            let retryCount: number = 0;
+
+            responseJson.then((questionResponse: IApiStatusResponseWrapper<MultipleChoiceQuestionModel[]>) => {
+                if (questionResponse.isFinished && questionResponse.content) {
+                    this.setState({
+                        activeTabIndex: 1,
+                        multipleChoiceQuestions: questionResponse.content,
+                        showFeedback: false
+                    });
+                } else if (retryCount < 5){
+                    setTimeout(() => {
+                        retryCount ++;
+                        this.pollQuestionsCallback(textAnalysisId);
+                    }, 5000);
+                } else if (retryCount === 5) {
+                    retryCount = 6;
+                    alert('Request has timed out.');
+                }
             });
         }).catch((errResponse) => {
             console.log(errResponse);
-            setTimeout(() => {
-                this.pollQuestionsCallback(textAnalysisId);
-            }, 5000);
         });
     };
 
@@ -92,6 +101,9 @@ class App extends React.Component<AppProps, any> {
     };
 
     selectTab = (selectedTabIndex: number) => {
+        if (!this.state || !this.state.multipleChoiceQuestions || this.state.multipleChoiceQuestions.length < 1 && selectedTabIndex == 1){
+            return; // disallow navigation to question tab if there are no questions available.
+        }
         this.setState({
             activeTabIndex: selectedTabIndex
         });
