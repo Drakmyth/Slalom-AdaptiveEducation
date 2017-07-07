@@ -2,6 +2,9 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {IbmWatsonNluService} from '../ibm-watson/IbmWatsonNluService';
 import {CommonAIService} from "../commonAI/commonAIService";
 import {AzureLinguisticsService} from "../azureLinguistics/azureLinguisticsService";
+import {ServiceResponseWrapper} from "../commonAI/serviceResponseWrapper";
+import MultipleChoiceQuestionModel from "../commonAI/multipleChoiceQuestionModel";
+import {TextAnalyses} from "../commonAI/textAnalyses";
 
 const ibmWatsonNluService = new IbmWatsonNluService();
 const azureLinguisticsService = new AzureLinguisticsService();
@@ -40,9 +43,18 @@ export class CommonAIRouter {
      * Get
      */
     getQuestions = (req: Request, res: Response, next: NextFunction) => {
-        let serviceResponse = commonAIService.getMultipleChoiceQuestions(req.params.key);
+        let serviceResponseWrapper: ServiceResponseWrapper<MultipleChoiceQuestionModel[]>;
+        let serviceResponse: MultipleChoiceQuestionModel[] = [];
+        let isFinished: boolean = false; //just in case it finishes in the fractions of seconds between the check and the return
 
-        res.send(serviceResponse);
+        if (TextAnalyses[req.params.key] && TextAnalyses[req.params.key].isFinished) {
+            isFinished = true;
+            serviceResponse = commonAIService.getMultipleChoiceQuestions(req.params.key);
+        }
+
+        serviceResponseWrapper = new ServiceResponseWrapper(isFinished, serviceResponse);
+
+        res.send(serviceResponseWrapper);
     };
 
   /**

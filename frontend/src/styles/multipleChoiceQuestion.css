@@ -14,14 +14,15 @@
 */
 
 .multiple-choice-question {
-
+    margin: 8px 16px 8px 16px;
 }
 
 .question-text {
-    margin: 0 8px;
+    margin: 8px;
     padding: 0 4px;
     border-left: 2px solid rgb(128, 128, 128);
     font-style: italic;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 .multiple-choice-answer-list {

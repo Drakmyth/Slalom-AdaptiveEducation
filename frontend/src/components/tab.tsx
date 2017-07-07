@@ -20,7 +20,7 @@ class Tab extends React.Component<TabProps, any> {
     render() {
         return (
             <div className={'tab ' + (this.props.tabIndex == this.props.activeTabIndex ? 'active' : 'inactive')}>
-                <div className="tab-header" style={{left: (this.props.tabIndex * 80) + 'px'}} onClick={this.tabHeaderClickHandler}>{this.props.tabHeader}</div>
+                <div className="tab-header" style={{left: (this.props.tabIndex * 96) + 'px'}} onClick={this.tabHeaderClickHandler}>{this.props.tabHeader}</div>
                 <div className="tab-body">
                     {this.props.children}
                 </div>
