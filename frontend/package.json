@@ -13,7 +13,8 @@
     "@types/react-dom": "^15.5.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "update": "^0.7.4"
+    "update": "^0.7.4",
+    "webpack-dev-server": "^2.5.1"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^3.1.3",

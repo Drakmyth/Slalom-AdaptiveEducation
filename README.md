@@ -45,7 +45,4 @@ GET http://localhost:3000/api/watson/get-sao-questions/{id}
 1. `npm install`
 1. `npm install --only=dev`
 1. `webpack`
-1. Launch WebStorm
-1. Open frontend folder as project
-1. Right-click `index.html`
-1. Select `Run 'index.html'`
+1. `webpack-dev-server --open`
