@@ -1,3 +1,11 @@
+# Notes
+
+- There are trial account credentials in the following files that have
+probably expired by now. If so, they will need to be replaced in order
+for this application to communicate with the AI platforms.
+  - `adaptive-education-ai/src/ibm-watson/IbmWatsonNluService.ts`
+  - `adaptive-education-ai/src/azureLinguistics/azureLinguisticsService.ts`
+
 # Server
 ### Installation
 1. `cd adaptive-education-ai`
