@@ -127,3 +127,7 @@ dist/
 
 
 # End of https://www.gitignore.io/api/node,jetbrains
+
+.DS_Store
+.vscode
+node_modules
