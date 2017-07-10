@@ -2,7 +2,7 @@
 import WatsonResultModel from '../ibm-watson/WatsonResultModel';
 import SemanticRolesModel from '../ibm-watson/SemanticRolesModel';
 import MultipleChoiceQuestionModel from '../commonAI/multipleChoiceQuestionModel';
-import MultipleChoiceAnswerModel from '../commonAI/MultipleChoiceAnswerModel';
+import MultipleChoiceAnswerModel from '../commonAI/multipleChoiceAnswerModel';
 import {TextAnalyses} from "../commonAI/textAnalyses";
 import TextAnalysisModel from "../commonAI/textAnalysisModel";
 

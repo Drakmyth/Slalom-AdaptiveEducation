@@ -1,4 +1,4 @@
-import MultipleChoiceAnswerModel from './MultipleChoiceAnswerModel';
+import MultipleChoiceAnswerModel from "./multipleChoiceAnswerModel";
 
 export default class MultipleChoiceQuestionModel {
     questionId: number;

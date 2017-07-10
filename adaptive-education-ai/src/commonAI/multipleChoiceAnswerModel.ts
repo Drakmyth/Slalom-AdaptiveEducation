@@ -1,4 +1,4 @@
-export default class MultipleChoiceModel {
+export default class MultipleChoiceAnswerModel {
     answerId: number;
     answerText: string;
     isAnswer: boolean;

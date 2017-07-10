@@ -1,5 +1,5 @@
 import MultipleChoiceQuestionModel from '../commonAI/multipleChoiceQuestionModel';
-import MultipleChoiceAnswerModel from '../commonAI/MultipleChoiceAnswerModel';
+import MultipleChoiceAnswerModel from '../commonAI/multipleChoiceAnswerModel';
 import {
     AzureLinguisticsConstituencyOutputModel, AzureLinguisticsSentenceTokenResultModel, AzureLinguisticsTagOutputModel,
     AzureLinguisticsTokenOutputModel, IAzureLinguisticsOutputModel

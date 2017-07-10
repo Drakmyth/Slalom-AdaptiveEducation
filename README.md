@@ -42,6 +42,7 @@ GET http://localhost:3000/api/watson/get-sao-questions/{id}
 ### Installation
 1. `cd frontend`
 1. `npm install -g webpack`
+1. `npm install -g webpack-dev-server`
 1. `npm install`
 1. `npm install --only=dev`
 1. `webpack`
